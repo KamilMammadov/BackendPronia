@@ -1111,8 +1111,4 @@
     <PackageReference Include="MimeKit" Version="3.4.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\Client\ViewComponents\" />
-  </ItemGroup>
-
 </Project>
