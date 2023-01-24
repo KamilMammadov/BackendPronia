@@ -1,5 +1,5 @@
-﻿@using DemoApplication.Database.Models
-@model List<PaymentBenefit>
+﻿@using DemoApplication.Areas.Client.ViewModels
+@model List<BenefitListItemViewModel>
 
 <div class="row shipping-wrap">
     @foreach (var benefit in Model)
@@ -8,11 +8,11 @@
     <div class="col-lg-4 col-md-6">
         <div class="shipping-item">
             <div class="shipping-img">
-                <img src="~/@benefit.ImageInFileSystem"
+                <img src="~/@benefit.ImageUrl"
                      alt="Shipping Icon" />
             </div>
             <div class="shipping-content">
-                <h2 class="title">@benefit.Title</h2>
+                <h2 class="title">@benefit.Tittle</h2>
                 <p class="short-desc mb-0">@benefit.Content</p>
             </div>
         </div>
