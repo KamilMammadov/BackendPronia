@@ -1114,7 +1114,6 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\ViewModels\" />
-    <Folder Include="Areas\Client\Controllers\" />
   </ItemGroup>
 
 </Project>

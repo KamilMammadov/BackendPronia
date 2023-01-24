@@ -1,4 +1,5 @@
-﻿using DemoApplication.Extensions;
+﻿using DemoApplication.Database.Models;
+using DemoApplication.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.Drawing;
 using System.Reflection;
@@ -12,9 +13,12 @@ namespace DemoApplication.Database
         {
 
         }
-       
 
 
+
+
+        public DbSet<Navbar> Navbars { get; set; }
+        public DbSet<SubNavbar> SubNavbars { get; set; }
 
 
 
