@@ -52,9 +52,11 @@ namespace DemoApplication.Services.Concretes
             switch (uploadDirectory)
             {
                 case UploadDirectory.Products:
-                    return $"{initialSegment}/books/{fileName}";
-             
-                   
+                    return $"{initialSegment}/products/{fileName}";
+                case UploadDirectory.PaymentBenefits:
+                    return $"{initialSegment}/paymentbenefits/{fileName}";
+
+
                 default:
                     throw new Exception("Something went wrong");
             }
@@ -73,7 +75,8 @@ namespace DemoApplication.Services.Concretes
             {
                 case UploadDirectory.Products:
                     return Path.Combine(startPath, "products");
-               
+                case UploadDirectory.PaymentBenefits:
+                    return Path.Combine(startPath, "paymentbenefits");
                 default:
                     throw new Exception("Something went wrong");
             }
