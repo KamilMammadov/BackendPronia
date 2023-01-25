@@ -7,32 +7,34 @@ using Microsoft.EntityFrameworkCore;
 namespace DemoApplication.Areas.Admin.Controllers
 {
     [Area("admin")]
-    [Route("admin/Category")]
-    public class CategoryController : Controller
+    [Route("admin/Tag")]
+    public class TagController : Controller
     {
         private readonly DataContext _dataContext;
 
 
-        public CategoryController(DataContext dataContext)
+        public TagController(DataContext dataContext)
         {
             _dataContext = dataContext;
 
         }
-        [HttpGet("list", Name = "admin-category-list")]
+        [HttpGet("list", Name = "admin-tag-list")]
         public async Task<IActionResult> ListAsync()
         {
-            var model = await _dataContext.Catagories.Select(s => new ListItemViewModel(s.Id, s.Title)).ToListAsync();
+            var model = await _dataContext.Tags.Select(s => new ListItemViewModel(s.Id, s.Name)).ToListAsync();
 
             return View(model);
         }
 
-        [HttpGet("add", Name = "admin-category-add")]
+
+        [HttpGet("add", Name = "admin-tag-add")]
         public async Task<IActionResult> Add()
         {
             return View();
         }
 
-        [HttpPost("add", Name = "admin-category-add")]
+
+        [HttpPost("add", Name = "admin-tag-add")]
         public async Task<IActionResult> Add(ListItemViewModel model)
         {
             if (!ModelState.IsValid)
@@ -40,34 +42,35 @@ namespace DemoApplication.Areas.Admin.Controllers
                 return View(model);
             }
 
-            var category = new Category
+            var tag = new Tag
             {
-                Title = model.Title,
+                Name = model.Title,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
             };
 
 
-            await _dataContext.Catagories.AddAsync(category);
+            await _dataContext.Tags.AddAsync(tag);
             await _dataContext.SaveChangesAsync();
 
 
-            return RedirectToRoute("admin-category-list");
+            return RedirectToRoute("admin-tag-list");
         }
-        [HttpGet("update/{id}", Name = "admin-category-update")]
+
+        [HttpGet("update/{id}", Name = "admin-tag-update")]
         public async Task<IActionResult> UpdateAsync([FromRoute] int id)
         {
-            var category = await _dataContext.Catagories.FirstOrDefaultAsync(n => n.Id == id);
+            var tag = await _dataContext.Tags.FirstOrDefaultAsync(n => n.Id == id);
 
-            if (category is null)
+            if (tag is null)
             {
                 return NotFound();
             }
 
             var model = new ListItemViewModel
             {
-                Id = category.Id,
-                Title = category.Title,
+                Id = tag.Id,
+                Title = tag.Name,
 
             };
 
@@ -75,11 +78,11 @@ namespace DemoApplication.Areas.Admin.Controllers
         }
 
 
-        [HttpPost("update/{id}", Name = "admin-category-update")]
+        [HttpPost("update/{id}", Name = "admin-tag-update")]
         public async Task<IActionResult> UpdateAsync(ListItemViewModel model)
         {
-            var category = await _dataContext.Catagories.FirstOrDefaultAsync(n => n.Id == model.Id);
-            if (category is null)
+            var tag = await _dataContext.Tags.FirstOrDefaultAsync(n => n.Id == model.Id);
+            if (tag is null)
             {
                 return NotFound();
             }
@@ -89,33 +92,30 @@ namespace DemoApplication.Areas.Admin.Controllers
                 return View(model);
             }
 
-
-            category.Title = model.Title;
-          
+            tag.Name = model.Title;
+            tag.UpdatedAt = DateTime.Now;
 
             await _dataContext.SaveChangesAsync();
-
-
-            return RedirectToRoute("admin-category-list");
+            return RedirectToRoute("admin-tag-list");
         }
 
 
 
-        [HttpPost("delete/{id}", Name = "admin-category-delete")]
+        [HttpPost("delete/{id}", Name = "admin-tag-delete")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var category = await _dataContext.Catagories.FirstOrDefaultAsync(n => n.Id == id);
+            var tag = await _dataContext.Tags.FirstOrDefaultAsync(n => n.Id == id);
 
-            if (category is null)
+            if (tag is null)
             {
                 return NotFound();
             }
 
-            _dataContext.Catagories.Remove(category);
+            _dataContext.Tags.Remove(tag);
 
             await _dataContext.SaveChangesAsync();
 
-            return RedirectToRoute("admin-category-list");
+            return RedirectToRoute("admin-tag-list");
         }
     }
 }
