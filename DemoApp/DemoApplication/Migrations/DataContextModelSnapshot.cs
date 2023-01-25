@@ -413,7 +413,7 @@ namespace DemoApplication.Migrations
                         .IsRequired();
 
                     b.HasOne("DemoApplication.Database.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("ProductColors")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -496,6 +496,8 @@ namespace DemoApplication.Migrations
             modelBuilder.Entity("DemoApplication.Database.Models.Product", b =>
                 {
                     b.Navigation("ProductCategories");
+
+                    b.Navigation("ProductColors");
 
                     b.Navigation("ProductImages");
 

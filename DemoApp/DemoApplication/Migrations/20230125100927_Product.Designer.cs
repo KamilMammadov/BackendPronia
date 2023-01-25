@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DemoApplication.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230125080341_Product")]
+    [Migration("20230125100927_Product")]
     partial class Product
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -415,7 +415,7 @@ namespace DemoApplication.Migrations
                         .IsRequired();
 
                     b.HasOne("DemoApplication.Database.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("ProductColors")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -498,6 +498,8 @@ namespace DemoApplication.Migrations
             modelBuilder.Entity("DemoApplication.Database.Models.Product", b =>
                 {
                     b.Navigation("ProductCategories");
+
+                    b.Navigation("ProductColors");
 
                     b.Navigation("ProductImages");
 
