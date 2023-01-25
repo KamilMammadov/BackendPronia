@@ -13,12 +13,12 @@ namespace DemoApplication.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly DataContext _dataContext;
-        private readonly IFileService _fileService;
+     
 
-        public ProductController(DataContext dataContext, IFileService fileService)
+        public ProductController(DataContext dataContext)
         {
             _dataContext = dataContext;
-            _fileService = fileService;
+          
         }
 
 
@@ -231,7 +231,7 @@ namespace DemoApplication.Areas.Admin.Controllers
         public async Task<IActionResult> UpdateAsync(AddViewModel model)
         {
             var product = await _dataContext.Products.Include(p => p.ProductCategories).Include(p => p.ProductSizes)
-             .Include(p => p.ProductColors).Include(p => p.ProductTags).FirstOrDefaultAsync(p => p.Id == id);
+             .Include(p => p.ProductColors).Include(p => p.ProductTags).FirstOrDefaultAsync(p => p.Id == model.Id);
             if (product is null)
             {
                 return NotFound();
@@ -278,9 +278,100 @@ namespace DemoApplication.Areas.Admin.Controllers
                     return GetView(model);
                 }
             }
+            UpdateProductAsync();
+
+            await _dataContext.SaveChangesAsync();
+
+            return RedirectToRoute("admin-product-list");
+
+            async Task UpdateProductAsync()
+            {
+                product.Name = model.Name;
+                product.Description = model.Description;
+                product.Price = model.Price;
+                product.UpdatedAt = DateTime.Now;
+
+                #region Catagory
+                var categoriesInDb = product.ProductCategories.Select(bc => bc.CategoryId).ToList();
+                var categoriesToRemove = categoriesInDb.Except(model.CategoryIds).ToList();
+                var categoriesToAdd = model.CategoryIds.Except(categoriesInDb).ToList();
+
+                product.ProductCategories.RemoveAll(bc => categoriesToRemove.Contains(bc.CategoryId));
+
+                foreach (var categoryId in categoriesToAdd)
+                {
+                    var productCatagory = new ProductCategory
+                    {
+                        CategoryId = categoryId,
+                        Product = product,
+                    };
+
+                    await _dataContext.ProductCatagories.AddAsync(productCatagory);
+                }
+                #endregion
+
+                #region Color
+                var colorInDb = product.ProductColors.Select(bc => bc.ColorId).ToList();
+                var colorToRemove = colorInDb.Except(model.ColorIds).ToList();
+                var colorToAdd = model.ColorIds.Except(colorInDb).ToList();
+
+                product.ProductColors.RemoveAll(bc => colorToRemove.Contains(bc.ColorId));
 
 
+                foreach (var colorId in colorToAdd)
+                {
+                    var productColor = new ProductColor
+                    {
+                        ColorId = colorId,
+                        Product = product,
+                    };
 
+                    await _dataContext.ProductColors.AddAsync(productColor);
+                }
+                #endregion
+
+
+                #region Size
+                var sizeInDb = product.ProductSizes.Select(bc => bc.SizeId).ToList();
+                var sizeToRemove = sizeInDb.Except(model.SizeIds).ToList();
+                var sizeToAdd = model.SizeIds.Except(sizeInDb).ToList();
+
+                product.ProductSizes.RemoveAll(bc => sizeToRemove.Contains(bc.SizeId));
+
+
+                foreach (var sizeId in sizeToAdd)
+                {
+                    var productSize = new ProductSize
+                    {
+                        SizeId = sizeId,
+                        Product = product,
+                    };
+
+                    await _dataContext.ProductSizes.AddAsync(productSize);
+                }
+
+                #endregion
+
+                #region Tag
+                var tagInDb = product.ProductTags.Select(bc => bc.TagId).ToList();
+                var tagToRemove = tagInDb.Except(model.TagIds).ToList();
+                var tagToAdd = model.TagIds.Except(tagInDb).ToList();
+
+                product.ProductTags.RemoveAll(bc => tagToRemove.Contains(bc.TagId));
+
+
+                foreach (var tagId in tagToAdd)
+                {
+                    var productTag = new ProductTag
+                    {
+                        TagId = tagId,
+                        Product = product,
+                    };
+
+                    await _dataContext.ProductTags.AddAsync(productTag);
+                }
+                #endregion
+            }
 
 
             IActionResult GetView(AddViewModel model)
@@ -290,7 +381,7 @@ namespace DemoApplication.Areas.Admin.Controllers
                    .Select(c => new CategoryListViewModel(c.Id, c.Title))
                    .ToList();
 
-                model.CategoryIds = product.ProductCatagories.Select(c => c.CatagoryId).ToList();
+                model.CategoryIds = product.ProductCategories.Select(c => c.CategoryId).ToList();
 
 
                 model.Sizes = _dataContext.Sizes
@@ -298,9 +389,9 @@ namespace DemoApplication.Areas.Admin.Controllers
                  .ToList();
 
                 model.SizeIds = product.ProductSizes.Select(c => c.SizeId).ToList();
-               
-                
-                
+
+
+
                 model.Colors = _dataContext.Colors
                  .Select(c => new ColorListViewModel(c.Id, c.Name))
                  .ToList();
@@ -317,13 +408,14 @@ namespace DemoApplication.Areas.Admin.Controllers
 
                 return View(model);
             }
+
         }
+        #endregion
 
 
-            #endregion
 
         #region Delete
-            [HttpPost("delete/{id}", Name = "admin-product-delete")]
+        [HttpPost("delete/{id}", Name = "admin-product-delete")]
         public async Task<IActionResult> DeleteAsync([FromRoute] int id)
         {
             var product = await _dataContext.Products.FirstOrDefaultAsync(p => p.Id == id);
@@ -338,7 +430,7 @@ namespace DemoApplication.Areas.Admin.Controllers
             return RedirectToRoute("admin-product-list");
         }
 
-
         #endregion
     }
 }
+
