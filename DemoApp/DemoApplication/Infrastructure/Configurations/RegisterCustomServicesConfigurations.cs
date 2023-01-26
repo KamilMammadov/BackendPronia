@@ -9,6 +9,10 @@ namespace DemoApplication.Infrastructure.Configurations
     {
         public static void RegisterCustomServices(this IServiceCollection services, IConfiguration configuration)
         {
+
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserActivationService, UserActivationService>();
             services.AddScoped<IFileService, FileService>();
         }
     }
