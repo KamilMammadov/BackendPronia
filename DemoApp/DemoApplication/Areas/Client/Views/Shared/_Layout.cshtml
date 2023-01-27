@@ -1,4 +1,6 @@
 ﻿@using DemoApplication.Areas.Client.ViewComponents
+@using DemoApplication.Services.Abstracts;
+@inject IUserService userService;
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -49,7 +51,10 @@
                     <div class="row align-items-center">
                         <div class="col-6">
                             <div class="header-top-left">
-                                <span class="pronia-offer">HELLO EVERYONE! 25% Off All Products</span>
+                                <span class="pronia-offer">@if (userService.IsAuthenticated)
+                                    {
+                                        @userService.GetCurrentUserFullName()
+                                    } HELLO EVERYONE! 25% Off All Products</span>
                             </div>
                         </div>
                         <div class="col-6">
