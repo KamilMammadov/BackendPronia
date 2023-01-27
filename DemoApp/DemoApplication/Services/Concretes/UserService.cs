@@ -103,6 +103,7 @@ namespace DemoApplication.Services.Concretes
             var user = await CreateUserAsync();
             
             var basket = await CreateBasketAsync();
+
             await CreteBasketProductsAsync();
 
             await _userActivationService.SendActivationUrlAsync(user);
