@@ -1,4 +1,5 @@
 ﻿using DemoApplication.Areas.Client.ViewModels;
+using DemoApplication.Contracts.File;
 using DemoApplication.Database;
 using DemoApplication.Database.Models;
 using DemoApplication.Services.Abstracts;
@@ -12,12 +13,15 @@ namespace DemoApplication.Services.Concretes
         private readonly DataContext _dataContext;
         private readonly IUserService _userService;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IFileService _fileService;
 
-        public BasketService(DataContext dataContext, IUserService userService, IHttpContextAccessor httpContextAccessor)
+
+        public BasketService(DataContext dataContext, IUserService userService, IHttpContextAccessor httpContextAccessor,IFileService fileService)
         {
             _dataContext = dataContext;
             _userService = userService;
             _httpContextAccessor = httpContextAccessor;
+            _fileService = fileService;
         }
 
 
@@ -61,7 +65,7 @@ namespace DemoApplication.Services.Concretes
 
                 await _dataContext.SaveChangesAsync();
             }
-
+            
 
             //Add product to cookie if user is not authenticated 
             List<ProductCookieViewModel> AddToCookie()
@@ -75,7 +79,10 @@ namespace DemoApplication.Services.Concretes
                 if (productCookieViewModel is null)
                 {
                     productsCookieViewModel
-                        !.Add(new ProductCookieViewModel(product.Id, product.Name, string.Empty, 1, product.Price, product.Price));
+                        !.Add(new ProductCookieViewModel(product.Id, product.Name,
+                         product.ProductImages.Take(1).FirstOrDefault() != null
+                   ? _fileService.GetFileUrl(product.ProductImages.Take(1).FirstOrDefault()!.ImageNameInFileSystem, UploadDirectory.Products)
+                   : String.Empty , 1, product.Price, product.Price));
                 }
                 else
                 {

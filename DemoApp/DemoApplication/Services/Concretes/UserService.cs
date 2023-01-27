@@ -8,6 +8,7 @@ using DemoApplication.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using DemoApplication.Areas.Client.ViewModels;
 using DemoApplication.Contracts.Identity;
+using System.Text.Json;
 
 namespace DemoApplication.Services.Concretes
 {
@@ -100,8 +101,9 @@ namespace DemoApplication.Services.Concretes
         public async Task CreateAsync(RegisterViewModel model)
         {
             var user = await CreateUserAsync();
-            //var basket = await CreateBasketAsync();
-            //await CreteBasketProductsAsync();
+            
+            var basket = await CreateBasketAsync();
+            await CreteBasketProductsAsync();
 
             await _userActivationService.SendActivationUrlAsync(user);
 
@@ -122,39 +124,39 @@ namespace DemoApplication.Services.Concretes
                 return user;
             }
 
-            //async Task<Basket> CreateBasketAsync()
-            //{
-            //    //Create basket process
-            //    var basket = new Basket
-            //    {
-            //        User = user,
-            //    };
-            //    await _dataContext.Baskets.AddAsync(basket);
+            async Task<Basket> CreateBasketAsync()
+            {
+                //Create basket process
+                var basket = new Basket
+                {
+                    User = user,
+                };
+                await _dataContext.Baskets.AddAsync(basket);
 
-            //    return basket;
-            //}
+                return basket;
+            }
 
-            //async Task CreteBasketProductsAsync()
-            //{
-            //    //Add products to basket if cookie exists
-            //    var productCookieValue = _httpContextAccessor.HttpContext!.Request.Cookies["products"];
-            //    if (productCookieValue is not null)
-            //    {
-            //        var productsCookieViewModel = JsonSerializer.Deserialize<List<ProductCookieViewModel>>(productCookieValue);
-            //        foreach (var productCookieViewModel in productsCookieViewModel)
-            //        {
-            //            var book = await _dataContext.Books.FirstOrDefaultAsync(b => b.Id == productCookieViewModel.Id);
-            //            var basketProduct = new BasketProduct
-            //            {
-            //                Basket = basket,
-            //                BookId = book!.Id,
-            //                Quantity = productCookieViewModel.Quantity,
-            //            };
+            async Task CreteBasketProductsAsync()
+            {
+                //Add products to basket if cookie exists
+                var productCookieValue = _httpContextAccessor.HttpContext!.Request.Cookies["products"];
+                if (productCookieValue is not null)
+                {
+                    var productsCookieViewModel = JsonSerializer.Deserialize<List<ProductCookieViewModel>>(productCookieValue);
+                    foreach (var productCookieViewModel in productsCookieViewModel)
+                    {
+                        var book = await _dataContext.Products.FirstOrDefaultAsync(b => b.Id == productCookieViewModel.Id);
+                        var basketProduct = new BasketProduct
+                        {
+                            Basket = basket,
+                            ProductId = book!.Id,
+                            Quantity = productCookieViewModel.Quantity,
+                        };
 
-            //            await _dataContext.BasketProducts.AddAsync(basketProduct);
-            //        }
-            //    }
-            //}
+                        await _dataContext.BasketProducts.AddAsync(basketProduct);
+                    }
+                }
+            }
 
         }
     }
