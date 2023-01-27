@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DemoApplication.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230127111524_basket")]
-    partial class basket
+    [Migration("20230127112029_Basket")]
+    partial class Basket
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -78,7 +78,7 @@ namespace DemoApplication.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("basketProducts");
+                    b.ToTable("BasketProducts");
                 });
 
             modelBuilder.Entity("DemoApplication.Database.Models.Category", b =>

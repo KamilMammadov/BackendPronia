@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DemoApplication.Migrations
 {
-    public partial class basket : Migration
+    public partial class Basket : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,7 +31,7 @@ namespace DemoApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "basketProducts",
+                name: "BasketProducts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -44,15 +44,15 @@ namespace DemoApplication.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_basketProducts", x => x.Id);
+                    table.PrimaryKey("PK_BasketProducts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_basketProducts_Baskets_BasketId",
+                        name: "FK_BasketProducts_Baskets_BasketId",
                         column: x => x.BasketId,
                         principalTable: "Baskets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_basketProducts_Products_ProductId",
+                        name: "FK_BasketProducts_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -60,13 +60,13 @@ namespace DemoApplication.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_basketProducts_BasketId",
-                table: "basketProducts",
+                name: "IX_BasketProducts_BasketId",
+                table: "BasketProducts",
                 column: "BasketId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_basketProducts_ProductId",
-                table: "basketProducts",
+                name: "IX_BasketProducts_ProductId",
+                table: "BasketProducts",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
@@ -79,7 +79,7 @@ namespace DemoApplication.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "basketProducts");
+                name: "BasketProducts");
 
             migrationBuilder.DropTable(
                 name: "Baskets");

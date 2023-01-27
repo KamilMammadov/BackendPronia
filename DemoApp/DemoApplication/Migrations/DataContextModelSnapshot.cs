@@ -76,7 +76,7 @@ namespace DemoApplication.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("basketProducts");
+                    b.ToTable("BasketProducts");
                 });
 
             modelBuilder.Entity("DemoApplication.Database.Models.Category", b =>

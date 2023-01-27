@@ -38,7 +38,7 @@ namespace DemoApplication.Database
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserActivation> UserActivations { get; set; }
         public DbSet<Basket> Baskets { get; set; }
-        public DbSet<BasketProduct> basketProducts { get; set; }
+        public DbSet<BasketProduct> BasketProducts { get; set; }
 
 
 
