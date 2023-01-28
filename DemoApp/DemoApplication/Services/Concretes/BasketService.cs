@@ -25,7 +25,7 @@ namespace DemoApplication.Services.Concretes
         }
 
 
-        public async Task<List<ProductCookieViewModel>> AddBasketProductAsync(Product product)
+        public async Task<List<ProductCookieViewModel>> AddBasketProductAsync(Product product,ProductCookieViewModel model)
         {
             if (_userService.IsAuthenticated)
             {
@@ -75,18 +75,19 @@ namespace DemoApplication.Services.Concretes
                     ? JsonSerializer.Deserialize<List<ProductCookieViewModel>>(productCookieValue)
                     : new List<ProductCookieViewModel> { };
 
-                var productCookieViewModel = productsCookieViewModel!.FirstOrDefault(pcvm => pcvm.Id == product.Id);
+                var productCookieViewModel = productsCookieViewModel!.FirstOrDefault(pcvm => pcvm.Id == product.Id 
+                && pcvm.SizeId==model.SizeId && pcvm.ColorId == model.ColorId);
                 if (productCookieViewModel is null)
                 {
                     productsCookieViewModel
                         !.Add(new ProductCookieViewModel(product.Id, product.Name,
                          product.ProductImages.Take(1).FirstOrDefault() != null
                    ? _fileService.GetFileUrl(product.ProductImages.Take(1).FirstOrDefault()!.ImageNameInFileSystem, UploadDirectory.Products)
-                   : String.Empty , 1, product.Price, product.Price));
+                   : String.Empty , model.Quantity, product.Price, product.Price,model.ColorId,model.SizeId));
                 }
                 else
                 {
-                    productCookieViewModel.Quantity += 1;
+                    productCookieViewModel.Quantity += model.Quantity;
                     productCookieViewModel.Total = productCookieViewModel.Quantity * productCookieViewModel.Price;
                 }
 

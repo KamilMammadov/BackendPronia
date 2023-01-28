@@ -8,14 +8,13 @@
         public int Price { get; set; }
         public DateTime CreatedAt { get; set; }
         public string MainImgUrl { get; set; }
-        public string HoverImgUrl { get; set; }
         public List<CategoryViewModeL> Categories { get; set; }
         public List<ColorViewModeL> Colors { get; set; }
         public List<SizeViewModeL> Sizes { get; set; }
         public List<TagViewModel> Tags { get; set; }
 
         public ProductViewModel(int id, string name, string description, int price,
-            string mainImgUrl, string hoverImgUrl, List<CategoryViewModeL> categories,
+            string mainImgUrl, List<CategoryViewModeL> categories,
             List<ColorViewModeL> colors, List<SizeViewModeL> sizes, List<TagViewModel> tags)
         {
             Id = id;
@@ -23,7 +22,6 @@
             Description = description;
             Price = price;
             MainImgUrl = mainImgUrl;
-            HoverImgUrl = hoverImgUrl;
             Categories = categories;
             Colors = colors;
             Sizes = sizes;

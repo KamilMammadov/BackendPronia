@@ -2,14 +2,16 @@
 {
     public class ModalViewModel
     {
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
         public string ImgUrl { get; set; }
         public List<ColorViewModeL> Colors { get; set; }
         public List<SizeViewModeL> Sizes { get; set; }
-        public ModalViewModel(string title, string description, decimal price, string ımgUrl, List<ColorViewModeL> colors, List<SizeViewModeL> sizes)
+        public ModalViewModel(int id,string title, string description, decimal price, string ımgUrl, List<ColorViewModeL> colors, List<SizeViewModeL> sizes)
         {
+            Id = id;
             Title = title;
             Description = description;
             Price = price;

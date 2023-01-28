@@ -5,7 +5,7 @@ namespace DemoApplication.Services.Abstracts
 {
     public interface IBasketService
     {
-        Task<List<ProductCookieViewModel>> AddBasketProductAsync(Product product);
+        Task<List<ProductCookieViewModel>> AddBasketProductAsync(Product product, ProductCookieViewModel model);
 
     }
 }

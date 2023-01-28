@@ -21,16 +21,36 @@ namespace DemoApplication.Areas.Client.Controllers
             _basketService = basketService;
         }
 
-        [HttpGet("add/{id}", Name = "client-basket-add")]
-        public async Task<IActionResult> AddProductAsync([FromRoute] int id)
+        //[HttpGet("add/{id}", Name = "client-basket-add")]
+        //public async Task<IActionResult> AddProductAsync([FromRoute] int id)
+        //{
+        //    var product = await _dataContext.Products.Include(p=>p.ProductImages).FirstOrDefaultAsync(b => b.Id == id);
+        //    if (product is null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var productsCookieViewModel = await _basketService.AddBasketProductAsync(product);
+        //    if (productsCookieViewModel.Any())
+        //    {
+        //        return ViewComponent(nameof(ShopCart), productsCookieViewModel);
+        //    }
+
+        //    return ViewComponent(nameof(ShopCart));
+        //}
+
+        [HttpPost("add", Name = "client-basket-add")]
+        public async Task<IActionResult> AddProductAsync( ProductCookieViewModel model)
         {
-            var product = await _dataContext.Products.Include(p=>p.ProductImages).FirstOrDefaultAsync(b => b.Id == id);
+            var product = await _dataContext.Products.Include(p => p.ProductImages).FirstOrDefaultAsync(b => b.Id == model.Id);
             if (product is null)
             {
                 return NotFound();
             }
+            model.SizeId = model.SizeId ?? product.ProductSizes.First().SizeId;
+            model.ColorId = model.ColorId ?? product.ProductColors.First().ColorId;
 
-            var productsCookieViewModel = await _basketService.AddBasketProductAsync(product);
+            var productsCookieViewModel = await _basketService.AddBasketProductAsync(product,model);
             if (productsCookieViewModel.Any())
             {
                 return ViewComponent(nameof(ShopCart), productsCookieViewModel);

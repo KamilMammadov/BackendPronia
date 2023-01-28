@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DemoApplication.Areas.Client.Controllers
 {
     [Area("client")]
+    [Route("home")]
     public class HomeController : Controller
     {
         private readonly DataContext _dataContext;
@@ -43,7 +44,7 @@ namespace DemoApplication.Areas.Client.Controllers
                 return NotFound();
             }
 
-            var model = new ModalViewModel(plant.Name, plant.Description, plant.Price,
+            var model = new ModalViewModel(plant.Id,plant.Name, plant.Description, plant.Price,
                 plant.ProductImages!.Take(1).FirstOrDefault() != null
                 ? _fileService.GetFileUrl(plant.ProductImages.Take(1).FirstOrDefault()!.ImageNameInFileSystem, UploadDirectory.Products)
             : String.Empty,
