@@ -42,8 +42,10 @@ namespace DemoApplication.Areas.Client.Controllers
                         Price = bp.Product.Price,
                         Quantity = bp.Quantity,
                         Total = bp.Product.Price * bp.Quantity,
-                        ColorName = bp.Size.Name,
-                        SizeName = bp.Size.Name
+                        ColorName = bp.Color.Name,
+                        SizeName = bp.Size.Name,
+                        ColorId= bp.ColorId,
+                        SizeId=bp.SizeId
                     }).ToListAsync(),
                 Summary = new OrdersProductsViewModel.SummaryViewModel
                 {
@@ -61,6 +63,8 @@ namespace DemoApplication.Areas.Client.Controllers
         {
             var basketProducts = await _dataContext.BasketProducts
                     .Include(bp => bp.Product)
+                    .Include(bp=>bp.Size)
+                    .Include(bp=> bp.Color)
                     .Where(bp => bp.Basket!.UserId == _userService.CurrentUser.Id)
                     .ToListAsync();
 
@@ -75,7 +79,7 @@ namespace DemoApplication.Areas.Client.Controllers
             await _dataContext.SaveChangesAsync();
 
 
-            return RedirectToRoute("client-account-dashboard");
+            return RedirectToRoute("client-home-index");
 
 
 
@@ -88,6 +92,7 @@ namespace DemoApplication.Areas.Client.Controllers
             {
                 foreach (var basketProduct in basketProducts)
                 {
+
                     var orderProduct = new OrderProduct
                     {
                         OrderId = order.Id,
@@ -95,8 +100,9 @@ namespace DemoApplication.Areas.Client.Controllers
                         Price = basketProduct.Product!.Price,
                         Quantity = basketProduct.Quantity,
                         Total = basketProduct.Quantity * basketProduct.Product!.Price,
-                        SizeName= basketProduct.Size!.Name,
-                        ColorName= basketProduct.Color!.Name
+                        SizeName= basketProduct.Size.Name,
+                        ColorName= basketProduct.Color.Name
+                        
                     };
 
                     await _dataContext.AddAsync(orderProduct);

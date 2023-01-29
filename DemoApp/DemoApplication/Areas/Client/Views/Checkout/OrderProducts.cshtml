@@ -122,7 +122,9 @@
                 </div>
             </div>
             <div class="order-button-payment">
-                <input value="Place order" type="submit" />
+                <form method="POST" asp-route="client-checkout-place-order" id="submit-form"></form>
+                <button type="submit" class="place-order w-100" form="submit-form">Place order</button>
+
             </div>
         </div>
     </div>

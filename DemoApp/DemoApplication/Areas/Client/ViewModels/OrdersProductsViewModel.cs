@@ -18,7 +18,10 @@
             public decimal Price { get; set; }
             public decimal Total { get; set; }
             public string ColorName { get; set; }
+            public int? ColorId { get; set; }
+
             public string SizeName { get; set; }
+            public int? SizeId { get; set; }
         }
     }
 }
