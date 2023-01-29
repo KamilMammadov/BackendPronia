@@ -55,9 +55,11 @@ namespace DemoApplication.Services.Concretes
 
                     basketProduct = new BasketProduct
                     {
-                        Quantity = 1,
+                        Quantity = model.Quantity,
                         BasketId = basket.Id,
                         ProductId = product.Id,
+                        SizeId=model.SizeId,
+                        ColorId=model.ColorId
                     };
 
                     await _dataContext.BasketProducts.AddAsync(basketProduct);

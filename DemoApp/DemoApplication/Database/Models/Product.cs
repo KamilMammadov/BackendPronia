@@ -14,6 +14,10 @@ namespace DemoApplication.Database.Models
         public List<ProductColor> ProductColors { get; set; }
         public List<ProductTag> ProductTags { get; set; }
 
+        public List<BasketProduct>? BasketProducts { get; set; }
+
+        public List<OrderProduct>? OrderProducts { get; set; }
+
 
         public DateTime CreatedAt { get ; set; }
         public DateTime UpdatedAt { get ; set; }

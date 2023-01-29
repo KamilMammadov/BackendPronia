@@ -12,15 +12,13 @@ namespace DemoApplication.Migrations
                 name: "ColorId",
                 table: "BasketProducts",
                 type: "int",
-                nullable: false,
-                defaultValue: 0);
+                nullable: true);
 
             migrationBuilder.AddColumn<int>(
                 name: "SizeId",
                 table: "BasketProducts",
                 type: "int",
-                nullable: false,
-                defaultValue: 0);
+                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

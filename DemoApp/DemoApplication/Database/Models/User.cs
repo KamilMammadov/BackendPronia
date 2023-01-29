@@ -21,6 +21,7 @@ namespace DemoApplication.Database.Models
         public Role? Role { get; set; }
 
         public UserActivation? UserActivation { get; set; }
+        public List<Order>? Orders { get; set; }
 
     }
 }

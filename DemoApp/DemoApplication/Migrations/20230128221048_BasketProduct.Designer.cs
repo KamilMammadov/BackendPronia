@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DemoApplication.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230128184848_BasketProduct")]
+    [Migration("20230128221048_BasketProduct")]
     partial class BasketProduct
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,7 +60,7 @@ namespace DemoApplication.Migrations
                     b.Property<int>("BasketId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ColorId")
+                    b.Property<int?>("ColorId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -72,7 +72,7 @@ namespace DemoApplication.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("SizeId")
+                    b.Property<int?>("SizeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedAt")
