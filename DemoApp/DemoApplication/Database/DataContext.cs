@@ -41,14 +41,12 @@ namespace DemoApplication.Database
         public DbSet<BasketProduct> BasketProducts { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderProduct> OrderProducts { get; set; }
-
-
-
-
-
-
-
-
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<BlogCategory> BlogCategories { get; set; }
+        public DbSet<BlogTag> BlogTags { get; set; }
+        public DbSet<BlogandBlogCategory> BlogandBlogCategories { get; set; }
+        public DbSet<BlogandBlogTag> BlogandBlogTags { get; set; }
+        public DbSet<BlogImage> BlogImages { get; set; }
 
 
 
