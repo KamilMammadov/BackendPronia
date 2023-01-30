@@ -42,14 +42,19 @@ namespace DemoApplication.Areas.Client.Controllers
         [HttpPost("add", Name = "client-basket-add")]
         public async Task<IActionResult> AddProductAsync( ProductCookieViewModel model)
         {
-            var product = await _dataContext.Products.Include(p => p.ProductImages).FirstOrDefaultAsync(b => b.Id == model.Id);
+            var product = await _dataContext.Products.Include(p=>p.ProductSizes)
+                .Include(p=>p.ProductColors)
+                .Include(p => p.ProductImages).FirstOrDefaultAsync(b => b.Id == model.Id);
             if (product is null)
             {
                 return NotFound();
             }
             model.SizeId = model.SizeId ?? product.ProductSizes.First().SizeId;
             model.ColorId = model.ColorId ?? product.ProductColors.First().ColorId;
-
+            if (model.Quantity==0)
+            {
+                model.Quantity = 1;
+            }
             var productsCookieViewModel = await _basketService.AddBasketProductAsync(product,model);
             if (productsCookieViewModel.Any())
             {

@@ -19,10 +19,9 @@
                 <div class="product-add-action">
                     <ul>
                         <li>
-                            <a @*class="add-product-to-basket-btn"
-                           asp-route="client-basket-add"
-                           asp-route-id="@product.Id"*@
-                           onclick="addtobasket()"
+                            <input type="hidden" id="productid-data-list" value="@product.Id" />
+                            <a
+                           class="addtobasketfromlist"
                            data-tippy="Add to wishlist"
                            data-tippy-inertia="true"
                            data-tippy-animation="shift-away"

@@ -42,6 +42,32 @@
     })
 
 
+$(".addtobasketfromlist").on("click", function (e) {
+    var productid = e.target.parentElement.previousSibling.previousSibling.value
+
+    console.log(productid)
+
+    $.ajax({
+        type: "POST",
+        url: "/basket/add",
+        data: {
+            Id: productid
+            
+        },
+        success: function (response) {
+            console.log("salam")
+            $('.cart-block').html(response);
+
+
+        },
+        error: function (err) {
+            console.log("error var")
+            $(".product-details-modal").html(err.responseText);
+
+        }
+    })
+}) 
+
 function addtobasket() {
     var colorid = $("#color-data").val()
     var sizeid = $("#size-data").val()

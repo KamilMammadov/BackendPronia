@@ -1,12 +1,34 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DemoApplication.Areas.Admin.ViewModels.Blog;
+using DemoApplication.Database;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DemoApplication.Areas.Admin.Controllers
 {
+    [Area("admin")]
+    [Route("admin/BlogProduct")]
     public class BlogController : Controller
     {
-        public IActionResult Index()
+        private readonly DataContext _dataContext;
+
+
+        public BlogController(DataContext dataContext)
         {
-            return View();
+            _dataContext = dataContext;
+
         }
+
+        [HttpGet("list", Name = "admin-blog-list")]
+        public async Task<IActionResult> ListAsync() 
+        {
+            var model = await _dataContext.Blogs.Select(p => new ListItemViewModel(p.Id,
+                p.Title,p.Content,p.From,p.CreatedAt,
+                p.BlogandBlogCategories.Select(pc => pc.BlogCategory).Select(c => new CategoryViewModel(c.Title, c.Parent.Title)).ToList(),
+                p.blogandBlogTags.Select(pt => pt.BlogTag).Select(t => new TagViewModel(t.Name)).ToList()
+                )).ToListAsync();
+
+            return View(model);
+        }
+
     }
 }
