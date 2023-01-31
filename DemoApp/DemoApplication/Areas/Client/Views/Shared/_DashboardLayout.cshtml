@@ -1046,22 +1046,12 @@
                     id="account-page-tab"
                     role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active"
-                           id="account-dashboard-tab"
-                           data-bs-toggle="tab"
-                           href="#account-dashboard"
-                           role="tab"
-                           aria-controls="account-dashboard"
-                           aria-selected="true">Dashboard</a>
+                            <a asp-route="client-account-dashboard">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"
-                           id="account-orders-tab"
-                           data-bs-toggle="tab"
-                           href="#account-orders"
-                           role="tab"
-                           aria-controls="account-orders"
-                           aria-selected="false">Orders</a>
+                        <a 
+                               asp-route="client-account-order"
+                           >Orders</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
@@ -1073,13 +1063,7 @@
                            aria-selected="false">Addresses</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"
-                           id="account-details-tab"
-                           data-bs-toggle="tab"
-                           href="#account-details"
-                           role="tab"
-                           aria-controls="account-details"
-                           aria-selected="false">Account Details</a>
+                        <a asp-route="client-account-detail">Account Details</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
@@ -1093,53 +1077,13 @@
             <div class="col-lg-9">
                 <div class="tab-content myaccount-tab-content"
                      id="account-page-tab-content">
-                 @RenderBody()
+              
+                     
+                     @RenderBody()
 
 
-                    <div class="tab-pane fade"
-                         id="account-orders"
-                         role="tabpanel"
-                         aria-labelledby="account-orders-tab">
-                        <div class="myaccount-orders">
-                            <h4 class="small-title">MY ORDERS</h4>
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-hover">
-                                    <tbody>
-                                        <tr>
-                                            <th>ORDER</th>
-                                            <th>DATE</th>
-                                            <th>STATUS</th>
-                                            <th>TOTAL</th>
-                                            <th></th>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a class="account-order-id" href="#">#5364</a>
-                                            </td>
-                                            <td>Mar 27, 2019</td>
-                                            <td>On Hold</td>
-                                            <td>$162.00 for 2 items</td>
-                                            <td>
-                                                <a href="#" class="btn btn-dark"><span>View</span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a class="account-order-id" href="#">#5356</a>
-                                            </td>
-                                            <td>Mar 27, 2019</td>
-                                            <td>On Hold</td>
-                                            <td>$162.00 for 2 items</td>
-                                            <td>
-                                                <a href="#" class="btn btn-dark"><span>View</span></a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade"
+                  
+                   @* <div class="tab-pane fade"
                          id="account-address"
                          role="tabpanel"
                          aria-labelledby="account-address-tab">
@@ -1212,7 +1156,7 @@
                                 </div>
                             </form>
                         </div>
-                    </div>
+                    </div>*@
                 </div>
             </div>
         </div>
